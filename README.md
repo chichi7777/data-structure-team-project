@@ -1,6 +1,6 @@
 # data-structure-team-project
 
-模擬cpu的排程
+模擬cpu的排程，比較四種方法之間的差異
 
 ## 功能:
 
