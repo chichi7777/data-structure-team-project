@@ -1,5 +1,7 @@
 # data-structure-team-project
 
+模擬cpu的排程
+
 ## 功能:
 
 1.first come first serve(FIFO)  
