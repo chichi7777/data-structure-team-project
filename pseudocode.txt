@@ -1,0 +1,220 @@
+aveType is a average struct.
+struct average:
+	waittime <-0.0
+	respTime <-0.0
+	turnardTime <-0.0
+end struct
+
+pType is a process struct.
+struct process:
+	ID <-0
+	arrivalTime <-0
+	burstTime <-0
+	remainingTime <-0
+	waitingTime <-0
+	turnaroundTime <-0
+	responseTime <-0
+	flag <-0
+end struct
+
+lkType is a linklist struct.
+struct linklist:
+	pType p <NULL
+	linklist Link <-NULL 
+end 
+
+quType is a Queue struct.
+struct Queue:
+	lkType front <-NULL
+	count <-0
+	lkType rear <-NULL
+end struct
+	
+
+func main()		:int
+	choice <-1
+	create 4 done queues for 4 functions
+	ask user to enter a file name
+	filename <- entered filename
+	
+	while 0 < choice < 6 do
+		ask user to select a method
+		/*1:First come first serve(FIFO)
+		2:Round_Robin(RR)
+		3:Non-preemptive Shortest Job First(SJF)
+		4:Preemptive Shortest Job First(SRTF)
+		5:compare average time of 4 methodes
+		6:quit*/
+		
+		switch (choice)
+			case 1:
+				running_with_FIFO(filename,FIFO_doneQ)		//call FIFO functions
+				print result of FIFO_doneQ
+				FIFO_ave <- printAverageTime(FIFO_doneQ)
+			case 2:
+				running_with_RR(filename, RR_doneQ)             //call  RR  functions
+				print result of RR_doneQ
+				RR_ave <- printAverageTime(RR_doneQ)
+			case 3:
+				running_with_SJF(filename, SJF_doneQ)           //call  SJF functions  
+				print result of SJF_doneQ
+				SJF_ave <- printAverageTime(SJF_doneQ)
+			case 4:
+				running_with_SRTF(filename, SRTF_doneQ)         //call  SRTF functions
+				print result of SRTF_doneQ 
+				SRTF_ave = printAverageTime(SRTF_doneQ)
+			case 6:
+				print(average waiting time of 4 methods)
+				print(average response time of 4 methods)
+				print(average turnaround time of 4 methods)
+		end switch
+	end while
+end func
+
+func running_with_FIFO (filename, doneQ)	:int
+       utilization <- 0.0
+       time <- 0
+       read from file and store in job queue
+       while both job queue and ready queue are not empty do
+              move data from job queue to ready queue
+              p <- FIFO
+              show process run in time 
+              time <- time +1
+       end while
+
+       print "Total run time"
+       print "Utilization"
+       return 0
+
+end func
+
+func FIFO (readyQ, doneQ, time)		:pType
+       if ready queue is not empty then
+           remainingTime of ready queue's first data pointer--;
+           if remainingTime of ready queue's first data pointer equal to 0 then
+               temp <- dequeue(readyQ) 
+               calculate waiting time, turnaround time and response time and store into done queue
+               enqueue temp into doneQ
+               return temp
+           else 
+               return ready queue's first data
+           end if
+       else
+           return NULL
+       end if
+end func
+
+func RR (queue * job_queue, queue * ready_queue, int current_time, int time_quantum)	:int
+{
+    if (ready_queue is not empty)
+    {
+            if (operation at the front of ready queue has not been completed yet)
+            {
+                show_processRun ();
+
+                set_ready_queue (ready_queue, job_queue);     //enqueue processs during a period of time
+                place operation into the rear of ready queue;
+            }
+
+            else if (operation is about to complete)
+            {
+                show_processRun ();
+
+                dequeue operation from ready_queue;
+                schedule(job_queue, info, current_time);
+                set_ready_queue (ready_queue, job_queue);
+
+                return info->remain_time;
+            }
+    }
+
+    else if (ready_queue is empty)
+    {
+        show_processRun ();
+        set_ready_queue (ready_queue, job_queue);
+    }
+}
+end func
+
+func running_with_SJF(filename,doneQ)		:int
+
+	time <-0,check <-0
+	utilization <-0.0
+	readfile and store into job queue
+	
+	while both ready queue and job queue are not empty do
+		 move data from job queue to ready queue
+		 if a process has finished then
+			sort ready queue with burst time
+		if the front of ready queue is not empty then
+			SJF	//call	SJF function
+		print the process running now
+		time++
+	end while
+	
+	print total time used
+	calculate and print utilization
+end func
+
+func SJF(q, doneQ ,time)		:int
+
+	p <- the front data of doneQ
+	remaining time of p --
+	if remaining time of p equal to 0 then
+		dequeue readyQ 
+		calculate response time,waiting time and turnaround time and store into p
+		enqueue p into doneQ
+	end if 
+end func
+
+func running_with_SRTF (filename, doneQ)	:int
+  
+    utilization <- 0.0
+
+    read from file and store in job queue
+
+    time <- 0
+    while (both job queue and ready queue are not empty) do	
+
+        if (some data move to ready queue from job queue) then
+            sort ready queue with remaining time
+        end if
+        
+        p <- SRTF // call SRTF function
+        show process run in time 
+        time <- time +1
+    end while
+
+    print "Total run time"
+    print "Utilization"
+    sort done queue with arrival time
+
+    return 0
+
+end func
+         
+func SRTF (readyQ, doneQ, time)			:pType
+
+    if (ready queue is not empty) then
+        p <- the first data pointer of ready queue
+
+        if (p's remaining time equal to p's burst time) then
+            calculate response time and record it
+        end if        
+
+        p's remaining time <- p's remaining time -1
+
+        if (p's remaining time less than 0) then	
+            calculate waiting time, turnaround time and store into done queue
+	    dequeue ready queue and euqueue it to done queue
+        end if
+
+        return p
+   
+    else 
+	return NULL
+
+    end if
+
+end func
+
