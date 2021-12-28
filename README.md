@@ -6,7 +6,7 @@
 2.round_robin(RR)  
 3.Non-preemptive shortest job first(SJF)  
 4.preemptive shortest job first(SRTF)  
-5.比較各個方法的waiting time,turnaround time,burst time  
+5.比較各個方法的waiting time,turnaround time,respones time  
 6.退出  
 
 
