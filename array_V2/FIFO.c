@@ -6,7 +6,7 @@ int running_with_FIFO (char * filename, quType * doneQ)
 {
 	int time;
 	float utilization=0.0;
-    pType * p;
+    pType * p;;
     quType * jobQ, * readyQ;
 
     jobQ = newQueue();
